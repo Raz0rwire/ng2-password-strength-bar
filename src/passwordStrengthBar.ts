@@ -28,6 +28,8 @@ import {Component, OnChanges, Input, SimpleChange} from '@angular/core';
         <ul id="strengthBar">
             <li class="point" [style.background-color]="bar0"></li><li class="point" [style.background-color]="bar1"></li><li class="point" [style.background-color]="bar2"></li><li class="point" [style.background-color]="bar3"></li><li class="point" [style.background-color]="bar4"></li>
         </ul>
+
+        <div class="text-indicator" [style.color]="bar0">{{text}}</div>
     </div>
 `
 })
@@ -39,8 +41,9 @@ export class PasswordStrengthBar implements OnChanges {
     bar2: string;
     bar3: string;
     bar4: string;
+    text: string;
 
-    private colors = ['#F00', '#F90', '#FF0', '#9F0', '#0F0'];
+    private colors = ['#cc3333', '#ff9900', '#ffcc00', '#99cc00', '#70e435'];
 
     private static measureStrength(p: string) {
         let _force = 0;
@@ -74,24 +77,32 @@ export class PasswordStrengthBar implements OnChanges {
     }
     private getColor(s: number) {
         let idx = 0;
+        let strength = '';
+
         if (s <= 10) {
             idx = 0;
+            strength = 'Very weak'
         }
         else if (s <= 20) {
             idx = 1;
+            strength = 'Weak';
         }
         else if (s <= 30) {
             idx = 2;
+            strength = 'Medium';
         }
         else if (s <= 40) {
             idx = 3;
+            strength = 'Strong';
         }
         else {
             idx = 4;
+            strength = 'Very strong';
         }
         return {
             idx: idx + 1,
-            col: this.colors[idx]
+            col: this.colors[idx],
+            text: strength
         };
     }
 
@@ -101,15 +112,17 @@ export class PasswordStrengthBar implements OnChanges {
 
     ngOnChanges(changes: {[propName: string]: SimpleChange}): void {
         let password = changes['passwordToCheck'].currentValue;
-        this.setBarColors(5, '#DDD');
+        this.setBarColors(5, '#758694');
         if (password) {
             let c = this.getStrengthIndexAndColor(password);
-            this.setBarColors(c.idx, c.col);
+            this.setBarColors(c.idx, c.col, c.text);
         }
     }
-    private setBarColors(count: number, col: string) {
+    private setBarColors(count: number, col: string, text?: string) {
         for (let _n = 0; _n < count; _n++) {
             this['bar' + _n] = col;
         }
+
+        this.text = text;
     }
 }
