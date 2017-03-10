@@ -7,5 +7,3 @@ app/**/*.js
 *.js.map
 _test-output
 _temp
-lib
-src/**/*.js
