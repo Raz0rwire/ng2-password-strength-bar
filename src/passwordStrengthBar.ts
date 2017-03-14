@@ -47,7 +47,7 @@ export class PasswordStrengthBar implements OnChanges {
 
     private static measureStrength(p: string) {
         let _force = 0;
-        const _regex = /[$-/:-?{-~!"^_`\[\]]/g; // "
+        const _regex = /[-[\]{}!@%&_=~()*+?.,\/\\^$|#\s]/g; // "
 
         const _lowerLetters = /[a-z]+/.test(p);
         const _upperLetters = /[A-Z]+/.test(p);
@@ -70,7 +70,8 @@ export class PasswordStrengthBar implements OnChanges {
         // penality (poor variety of characters)
         _force = (_passedMatches === 1) ? Math.min(_force, 10) : _force;
         _force = (_passedMatches === 2) ? Math.min(_force, 20) : _force;
-        _force = (_passedMatches === 3) ? Math.min(_force, 40) : _force;
+        _force = (_passedMatches === 3) ? Math.min(_force, 30) : _force;
+        _force = (_passedMatches === 4 && _force  <= 58) ? Math.min(_force, 40) : _force;
 
         return _force;
 

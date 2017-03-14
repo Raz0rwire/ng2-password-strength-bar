@@ -16,7 +16,7 @@ var PasswordStrengthBar = PasswordStrengthBar_1 = (function () {
     }
     PasswordStrengthBar.measureStrength = function (p) {
         var _force = 0;
-        var _regex = /[$-/:-?{-~!"^_`\[\]]/g; // "
+        var _regex = /[-[\]{}!@%&_=~()*+?.,\/\\^$|#\s]/g; // "
         var _lowerLetters = /[a-z]+/.test(p);
         var _upperLetters = /[A-Z]+/.test(p);
         var _numbers = /[0-9]+/.test(p);
@@ -34,7 +34,8 @@ var PasswordStrengthBar = PasswordStrengthBar_1 = (function () {
         // penality (poor variety of characters)
         _force = (_passedMatches === 1) ? Math.min(_force, 10) : _force;
         _force = (_passedMatches === 2) ? Math.min(_force, 20) : _force;
-        _force = (_passedMatches === 3) ? Math.min(_force, 40) : _force;
+        _force = (_passedMatches === 3) ? Math.min(_force, 30) : _force;
+        _force = (_passedMatches === 4 && _force <= 58) ? Math.min(_force, 40) : _force;
         return _force;
     };
     PasswordStrengthBar.prototype.getColor = function (s) {
