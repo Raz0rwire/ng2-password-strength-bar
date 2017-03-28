@@ -53,6 +53,7 @@ export class PasswordStrengthBar implements OnChanges {
         const _upperLetters = /[A-Z]+/.test(p);
         const _numbers = /[0-9]+/.test(p);
         const _symbols = _regex.test(p);
+        const _spaces = /\s/g.test(p);
 
         const _flags = [_lowerLetters, _upperLetters, _numbers, _symbols];
 
@@ -64,14 +65,17 @@ export class PasswordStrengthBar implements OnChanges {
         _force += 2 * p.length + ((p.length >= 10) ? 1 : 0);
         _force += _passedMatches * 10;
 
-        // penality (short password)
+        // penalty (short password)
         _force = (p.length <= 6) ? Math.min(_force, 10) : _force;
 
-        // penality (poor variety of characters)
+        // penalty (poor variety of characters)
         _force = (_passedMatches === 1) ? Math.min(_force, 10) : _force;
         _force = (_passedMatches === 2) ? Math.min(_force, 20) : _force;
         _force = (_passedMatches === 3) ? Math.min(_force, 30) : _force;
         _force = (_passedMatches === 4 && _force  <= 58) ? Math.min(_force, 40) : _force;
+
+        // penalty for spaces
+        _force = _spaces ? 0 : _force;
 
         return _force;
 
