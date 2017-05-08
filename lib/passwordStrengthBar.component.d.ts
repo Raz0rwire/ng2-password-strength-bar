@@ -1,5 +1,5 @@
 import { OnChanges, SimpleChange } from '@angular/core';
-export declare class PasswordStrengthBar implements OnChanges {
+export declare class PasswordStrengthBarComponent implements OnChanges {
     passwordToCheck: string;
     barLabel: string;
     bar0: string;
